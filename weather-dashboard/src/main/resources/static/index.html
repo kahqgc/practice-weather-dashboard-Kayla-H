@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weather Dashboard</title>
+    <style>
+        body {font-family: Arial; margin: 40px;}
+        .weather {margin-top: 20px; }
+    </style>
+</head>
+<body>
+<h1>Weather Dashboard</h1>
+<label for="city">Choose a city:</label>
+    <select id="city">
+        <option value="London">London</option>
+        <option value="New York">New York</option>
+        <option value="Tokyo">Tokyo</option>
+        <option value ="Chicago">Chicago</option>
+        <option value="Sydney">Sydney</option>
+        <option value = "Milan">Milan</option>
+        <option value="Denver">Denver</option>
+    </select>
+    <button onClick="getWeather()">Get Weather</button>
+    <div id="weather" class="weather"></div>
+
+<script>
+    async function getWeather(){
+    let city = document.getElementById('city').value;
+
+    let response = await fetch(`/weather?city=${city}`);
+    let weatherData = await response.json();
+
+    console.log(weatherData)
+
+    let weatherDiv = document.getElementById("weather");
+
+    if (weatherData.temperature !== undefined){
+        weatherDiv.innerHTML =`
+        <h2>Weather in ${city} </h2>
+        <p>Temperature: ${weatherData.temperature}</p>
+        <p>Humidity: ${weatherData.humidity}</p>`;
+    } else {
+        weatherDiv.innerHTML = `<p>Weather Data not available for ${city}</p>`
+    }
+    }
+</script>
+</body>
+</html>
